@@ -514,7 +514,7 @@ export default function DriversPage() {
                 
                 {/* SECTION 1: Personal Info */}
                 {activeFormTab === 'personal' && (
-                  <div className="animate-in" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                  <div className="animate-in" style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxHeight: '420px', overflowY: 'auto', paddingRight: '6px' }}>
                     <div className="form-row">
                       <div className="form-group">
                         <label className="form-label">Full Name *</label>
@@ -575,7 +575,7 @@ export default function DriversPage() {
 
                 {/* SECTION 2: Driving License */}
                 {activeFormTab === 'license' && (
-                  <div className="animate-in" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                  <div className="animate-in" style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxHeight: '420px', overflowY: 'auto', paddingRight: '6px' }}>
                     <div className="form-row">
                       <div className="form-group">
                         <label className="form-label">License Number *</label>
@@ -659,7 +659,7 @@ export default function DriversPage() {
 
                 {/* SECTION 4: Employment Details */}
                 {activeFormTab === 'employment' && (
-                  <div className="animate-in" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                  <div className="animate-in" style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxHeight: '420px', overflowY: 'auto', paddingRight: '6px' }}>
                     <div className="form-group">
                       <label className="form-label">Employment Status</label>
                       <select className="form-select" value={form.status} onChange={e => setForm({ ...form, status: e.target.value })}>

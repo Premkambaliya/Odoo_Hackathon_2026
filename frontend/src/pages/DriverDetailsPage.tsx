@@ -154,11 +154,11 @@ export default function DriverDetailsPage() {
   const fetchDetails = () => {
     api.get(`/drivers/${id}`)
       .then(res => {
-        setDriver(res.driver);
-        setStats(res.stats);
-        setTrips(res.trips);
-        setViolations(res.violations);
-        setPayrollRecords(res.payrollRecords);
+        setDriver(res.driver || null);
+        setStats(res.stats || null);
+        setTrips(res.trips || []);
+        setViolations(res.violations || []);
+        setPayrollRecords(res.payrollRecords || []);
         setLoading(false);
       })
       .catch((err) => {
@@ -805,7 +805,7 @@ export default function DriverDetailsPage() {
                   <TrendingUp size={16} /> Operations Trend Analysis
                 </h3>
                 <div style={{ width: '100%', height: '230px' }}>
-                  <ResponsiveContainer>
+                  <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={getTripsPerformanceData()}>
                       <defs>
                         <linearGradient id="colorTrips" x1="0" y1="0" x2="0" y2="1">
