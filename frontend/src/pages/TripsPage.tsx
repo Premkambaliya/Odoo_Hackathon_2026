@@ -8,6 +8,7 @@ interface Driver { id: string; name: string; status: string; license_expiry_date
 interface Trip {
   id: string; source: string; destination: string; cargo_weight: number;
   planned_distance: number; status: string; start_time: string | null; end_time: string | null;
+  trip_type?: string; reason?: string | null;
   vehicle?: Vehicle; driver?: Driver;
 }
 
@@ -119,6 +120,7 @@ export default function TripsPage() {
               <thead>
                 <tr>
                   <th>Route</th>
+                  <th>Type</th>
                   <th>Vehicle</th>
                   <th>Driver</th>
                   <th>Cargo (kg)</th>
@@ -130,10 +132,15 @@ export default function TripsPage() {
               </thead>
               <tbody>
                 {trips.length === 0 ? (
-                  <tr><td colSpan={isManager ? 8 : 7}><div className="empty-state"><p>No trips found</p></div></td></tr>
+                  <tr><td colSpan={isManager ? 9 : 8}><div className="empty-state"><p>No trips found</p></div></td></tr>
                 ) : trips.map(t => (
                   <tr key={t.id}>
                     <td><strong>{t.source}</strong> → {t.destination}</td>
+                    <td>
+                      <span className={`badge ${t.trip_type === 'INTERNAL' ? 'badge-info' : 'badge-primary'}`}>
+                        {t.trip_type === 'INTERNAL' ? `Internal (${t.reason})` : 'Delivery'}
+                      </span>
+                    </td>
                     <td>{t.vehicle?.registration_number || '—'}</td>
                     <td>{t.driver?.name || '—'}</td>
                     <td>{t.cargo_weight.toLocaleString()}</td>

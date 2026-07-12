@@ -72,6 +72,8 @@ interface Trip {
   end_time: string | null;
   fuel_consumed: number | null;
   fuel_cost: number | null;
+  trip_type?: string;
+  reason?: string | null;
   driver?: { name: string };
 }
 
@@ -566,6 +568,7 @@ export default function VehicleDetailsPage() {
                 <tr>
                   <th>Trip ID</th>
                   <th>Route</th>
+                  <th>Type</th>
                   <th>Driver</th>
                   <th>Cargo Weight</th>
                   <th>Planned Distance</th>
@@ -577,7 +580,7 @@ export default function VehicleDetailsPage() {
               <tbody>
                 {trips.length === 0 ? (
                   <tr>
-                    <td colSpan={8}>
+                    <td colSpan={9}>
                       <div className="empty-state"><p>No trips dispatched for this vehicle.</p></div>
                     </td>
                   </tr>
@@ -585,6 +588,11 @@ export default function VehicleDetailsPage() {
                   <tr key={t.id} style={{ cursor: 'pointer' }} onClick={() => setSelectedTrip(t)} className="hover-row">
                     <td><strong style={{ fontSize: '0.75rem', color: 'var(--primary)' }}>#{t.id.substring(0, 8)}</strong></td>
                     <td><strong>{t.source}</strong> <ArrowRight size={12} style={{ margin: '0 4px', verticalAlign: 'middle' }} /> {t.destination}</td>
+                    <td>
+                      <span className={`badge ${t.trip_type === 'INTERNAL' ? 'badge-info' : 'badge-primary'}`}>
+                        {t.trip_type === 'INTERNAL' ? `Internal (${t.reason})` : 'Delivery'}
+                      </span>
+                    </td>
                     <td>{t.driver?.name || '—'}</td>
                     <td>{t.cargo_weight.toLocaleString()} kg</td>
                     <td>{t.planned_distance} km</td>

@@ -17,7 +17,12 @@ export default function LoginPage() {
     setLoading(true);
     try {
       await login(email, password);
-      navigate('/dashboard');
+      const role = localStorage.getItem('transitops_role');
+      if (role === 'DRIVER') {
+        navigate('/driver/dashboard');
+      } else {
+        navigate('/dashboard');
+      }
     } catch (err: any) {
       setError(err.message || 'Invalid credentials');
     } finally {
