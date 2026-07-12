@@ -29,7 +29,9 @@ enum DriverStatus {
 
 enum TripStatus {
   DRAFT
+  SCHEDULED
   DISPATCHED
+  IN_PROGRESS
   COMPLETED
   CANCELLED
 }
@@ -187,6 +189,81 @@ model Trip {
   reason           String?    // e.g. "Parking Movement", "Service Visit", etc.
   final_proof_path String?
   remarks          String?
+
+  // Additional specifications from tripmodule.md
+  priority         String     @default("MEDIUM") // LOW, MEDIUM, HIGH, EMERGENCY
+  expected_delivery DateTime?
+  special_instructions String?
+
+  // Pickup Customer Details
+  pickup_customer_name  String?
+  pickup_company_name   String?
+  pickup_gst_number     String?
+  pickup_contact_person String?
+  pickup_mobile         String?
+  pickup_alt_mobile     String?
+  pickup_email          String?
+  pickup_street         String?
+  pickup_area           String?
+  pickup_city           String?
+  pickup_state          String?
+  pickup_country        String?
+  pickup_pincode        String?
+  pickup_maps_link      String?
+
+  // Delivery Customer Details
+  delivery_customer_name  String?
+  delivery_company_name   String?
+  delivery_gst_number     String?
+  delivery_contact_person String?
+  delivery_mobile         String?
+  delivery_alt_mobile     String?
+  delivery_email          String?
+  delivery_street         String?
+  delivery_area           String?
+  delivery_city           String?
+  delivery_state          String?
+  delivery_country        String?
+  delivery_pincode        String?
+  delivery_maps_link      String?
+
+  // Goods Info
+  goods_name             String?
+  goods_quantity         Float?
+  goods_volume           Float?
+  goods_package_count    Int?
+  is_fragile             Boolean    @default(false)
+  is_perishable          Boolean    @default(false)
+  is_hazardous           Boolean    @default(false)
+  special_handling_notes String?
+
+  // Route Info
+  loading_start_time     DateTime?
+  loading_end_time       DateTime?
+  departure_time         DateTime?
+  estimated_duration     Float?
+  stops_count            Int        @default(0)
+  route_notes            String?
+
+  // Financial details
+  driver_allowance       Float      @default(0)
+  loading_charges        Float      @default(0)
+  unloading_charges      Float      @default(0)
+  toll_estimate          Float      @default(0)
+  misc_estimate          Float      @default(0)
+  expected_revenue       Float      @default(0)
+
+  // Attachments
+  invoice_file_path          String?
+  challan_file_path          String?
+  eway_bill_file_path        String?
+  purchase_order_file_path   String?
+  other_doc_file_path        String?
+
+  // Delivery completion
+  receiver_name          String?
+  receiver_mobile        String?
+  customer_signature_path String?
 
   vehicle_id       String
   vehicle          Vehicle    @relation(fields: [vehicle_id], references: [id])

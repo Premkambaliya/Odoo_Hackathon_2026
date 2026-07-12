@@ -91,8 +91,8 @@ export const getDashboard = async (req: Request, res: Response) => {
 
     if (!driver) return res.status(404).json({ error: 'Driver not found' });
 
-    // Active Trip (DISPATCHED)
-    const activeTrip = driver.trips.find(t => t.status === 'DISPATCHED');
+    // Active Trip (DISPATCHED or IN_PROGRESS)
+    const activeTrip = driver.trips.find(t => t.status === 'DISPATCHED' || t.status === 'IN_PROGRESS');
 
     // Trips This Month
     const now = new Date();
@@ -197,7 +197,7 @@ export const getActiveTrip = async (req: Request, res: Response) => {
     if (!driver) return res.status(404).json({ error: 'Driver profile not found' });
 
     const trip = await prisma.trip.findFirst({
-      where: { driver_id: driver.id, status: 'DISPATCHED' },
+      where: { driver_id: driver.id, status: { in: ['DISPATCHED', 'IN_PROGRESS'] } },
       include: { vehicle: true }
     });
 
@@ -394,6 +394,9 @@ export const completeTrip = async (req: Request, res: Response) => {
 
     const trip = await prisma.trip.findUnique({ where: { id: tripId }, include: { vehicle: true } });
     if (!trip) return res.status(404).json({ error: 'Trip not found' });
+    if (trip.status !== 'DISPATCHED' && trip.status !== 'IN_PROGRESS') {
+      return res.status(400).json({ error: 'Trip must be in DISPATCHED or IN_PROGRESS state to complete' });
+    }
 
     const file = req.file;
     const final_proof_path = file ? `uploads/${file.filename}` : null;
