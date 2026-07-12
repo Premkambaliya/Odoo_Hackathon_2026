@@ -111,10 +111,59 @@ model Driver {
   safety_score        Float         @default(100)
   status              DriverStatus  @default(AVAILABLE)
 
+  // Section 1: Personal Info
+  profile_photo_path    String?
+  address               String?
+  emergency_contact_name String?
+  emergency_contact_phone String?
+  joining_date          DateTime?
+  monthly_salary        Float?       @default(0)
+
+  // Section 2: Driving License
+  license_issue_date    DateTime?
+  license_file_path     String?      // DL upload path
+
+  // Section 3: Identity Documents
+  aadhaar_number        String?
+  aadhaar_file_path     String?      // Aadhaar PDF/Image upload path
+  pan_file_path         String?      // PAN PDF upload path
+  medical_cert_path     String?      // Medical Fitness Certificate upload path
+  police_verification_path String?   // Police Verification Certificate upload path
+
+  // Section 4: Employment Details
+  internal_notes        String?
+  admin_remarks         String?
+
   createdAt           DateTime      @default(now())
   updatedAt           DateTime      @updatedAt
 
   trips               Trip[]
+  payrollRecords      Payroll[]
+  violations          Violation[]
+}
+
+model Payroll {
+  id               String       @id @default(uuid())
+  driver_id        String
+  driver           Driver       @relation(fields: [driver_id], references: [id], onDelete: Cascade)
+  month            String       // e.g. "July 2026"
+  base_salary      Float
+  bonus            Float        @default(0)
+  deductions       Float        @default(0)
+  final_salary     Float
+  payment_status   String       @default("PENDING") // "PAID", "PENDING"
+  payment_date     DateTime?
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+}
+
+model Violation {
+  id               String       @id @default(uuid())
+  driver_id        String
+  driver           Driver       @relation(fields: [driver_id], references: [id], onDelete: Cascade)
+  description      String
+  points_deducted  Float        @default(5)
+  date             DateTime     @default(now())
 }
 
 model Trip {

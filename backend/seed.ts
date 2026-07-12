@@ -26,13 +26,84 @@ async function seed() {
   const driverUser3 = await prisma.user.create({ data: { email: 'driver3@transitops.com', password_hash, role: 'DRIVER' } });
 
   const driver1 = await prisma.driver.create({
-    data: { user_id: driverUser1.id, name: 'John Doe', license_number: 'DL-001', license_category: 'Heavy', license_expiry_date: new Date('2028-01-01'), contact_number: '1112223333', status: 'AVAILABLE' }
+    data: { 
+      user_id: driverUser1.id, 
+      name: 'John Doe', 
+      license_number: 'DL-001', 
+      license_category: 'Heavy', 
+      license_expiry_date: new Date('2028-01-01'), 
+      contact_number: '1112223333', 
+      status: 'AVAILABLE',
+      profile_photo_path: 'uploads/driver-john.jpg',
+      address: '123 ERP Lane, Mumbai',
+      emergency_contact_name: 'Mary Doe',
+      emergency_contact_phone: '9998887776',
+      joining_date: new Date('2024-01-10'),
+      monthly_salary: 35000,
+      aadhaar_number: '1234-5678-9012',
+      license_file_path: 'uploads/dl-john.pdf',
+      aadhaar_file_path: 'uploads/aadhaar-john.pdf',
+      safety_score: 95,
+      payrollRecords: {
+        create: [
+          { month: 'May 2026', base_salary: 35000, bonus: 2000, deductions: 500, final_salary: 36500, payment_status: 'PAID', payment_date: new Date('2026-06-02') },
+          { month: 'June 2026', base_salary: 35000, bonus: 1500, deductions: 1000, final_salary: 35500, payment_status: 'PAID', payment_date: new Date('2026-07-01') },
+          { month: 'July 2026', base_salary: 35000, bonus: 0, deductions: 0, final_salary: 35000, payment_status: 'PENDING' }
+        ]
+      },
+      violations: {
+        create: [
+          { description: 'Over-speeding violation on Highway 4', points_deducted: 5, date: new Date('2026-06-15') }
+        ]
+      }
+    }
   });
   const driver2 = await prisma.driver.create({
-    data: { user_id: driverUser2.id, name: 'Jane Smith', license_number: 'DL-002', license_category: 'Light', license_expiry_date: new Date('2027-06-15'), contact_number: '4445556666', status: 'ON_TRIP' }
+    data: { 
+      user_id: driverUser2.id, 
+      name: 'Jane Smith', 
+      license_number: 'DL-002', 
+      license_category: 'Light', 
+      license_expiry_date: new Date('2027-06-15'), 
+      contact_number: '4445556666', 
+      status: 'ON_TRIP',
+      profile_photo_path: 'uploads/driver-jane.jpg',
+      address: '456 Tech Park, Pune',
+      emergency_contact_name: 'Robert Smith',
+      emergency_contact_phone: '8887776665',
+      joining_date: new Date('2025-03-01'),
+      monthly_salary: 38000,
+      aadhaar_number: '9876-5432-1098',
+      license_file_path: 'uploads/dl-jane.pdf',
+      aadhaar_file_path: 'uploads/aadhaar-jane.pdf',
+      safety_score: 100,
+      payrollRecords: {
+        create: [
+          { month: 'June 2026', base_salary: 38000, bonus: 1000, deductions: 0, final_salary: 39000, payment_status: 'PAID', payment_date: new Date('2026-07-01') }
+        ]
+      }
+    }
   });
   const driver3 = await prisma.driver.create({
-    data: { user_id: driverUser3.id, name: 'Mike Ross', license_number: 'DL-003', license_category: 'Heavy', license_expiry_date: new Date('2025-12-30'), contact_number: '7778889999', status: 'OFF_DUTY' }
+    data: { 
+      user_id: driverUser3.id, 
+      name: 'Mike Ross', 
+      license_number: 'DL-003', 
+      license_category: 'Heavy', 
+      license_expiry_date: new Date('2026-08-05'), // Expiring soon in our timeline!
+      contact_number: '7778889999', 
+      status: 'OFF_DUTY',
+      profile_photo_path: 'uploads/driver-mike.jpg',
+      address: '789 Lawyer Row, Bangalore',
+      emergency_contact_name: 'Harvey Specter',
+      emergency_contact_phone: '7776665554',
+      joining_date: new Date('2025-05-15'),
+      monthly_salary: 32000,
+      aadhaar_number: '5555-6666-7777',
+      license_file_path: 'uploads/dl-mike.pdf',
+      aadhaar_file_path: 'uploads/aadhaar-mike.pdf',
+      safety_score: 100
+    }
   });
 
   // 2. Vehicles
